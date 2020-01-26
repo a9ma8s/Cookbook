@@ -5,11 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="com.example.cookbook.RecipeViewModel" />
         <variable
             name="recipe"
             type="com.example.cookbook.Recipe" />
@@ -22,26 +17,18 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_recipe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            style="@style/Widget.Cookbook.ActionBar"
             android:title="@{recipe.name}"
-
-            app:titleTextColor="@android:color/primary_text_light"
             tools:title="@string/sample_recipe_name" />
-
-<!--        app:menu="@menu/toolbar_recipe"-->
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/image_recipe"
@@ -49,8 +36,8 @@
                     android:layout_height="300dp"
                     android:contentDescription="@{recipe.name}"
                     android:cropToPadding="false"
-                    app:srcCompat="@mipmap/rigatoni"
-                    tools:src="@mipmap/rigatoni" />
+                    app:imageResource="@{recipe.image}"
+                    tools:src="@mipmap/pancakes" />
 
                 <TextView
                     android:id="@+id/text_title_ingredients"
@@ -65,18 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{recipe.ingredients}"
-                    android:visibility="@{viewModel.editRecipe ? View.GONE : View.VISIBLE}"
                     tools:text="@string/sample_ingredients" />
-
-                <EditText
-                    android:id="@+id/text_edit_ingredients"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:text="@{recipe.ingredients}"
-                    android:visibility="@{viewModel.editRecipe ? View.VISIBLE : View.GONE}" />
 
                 <TextView
                     android:id="@+id/text_title_instructions"
@@ -90,19 +66,9 @@
                     style="@style/RecipeText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={recipe.instructions}"
-                    android:visibility="@{viewModel.editRecipe ? View.GONE : View.VISIBLE}"
+                    android:text="@{recipe.instructions}"
                     tools:text="@string/sample_instructions" />
 
-                <EditText
-                    android:id="@+id/text_edit_instructions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:text="@{recipe.instructions}"
-                    android:visibility="@{viewModel.editRecipe ? View.VISIBLE : View.GONE}" />
             </LinearLayout>
         </ScrollView>
 

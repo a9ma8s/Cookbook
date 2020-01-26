@@ -6,4 +6,8 @@
     <string name="sample_instructions">1. Mix egg and sugar until creamy \n2. Add butter \n4. Mix in half of milk \n5. Put in container and freeze for 4 hours or overnight</string>
     <string name="title_ingredients">Ingredients</string>
     <string name="title_instructions">Instructions</string>
+    <string name="hint_recipe_instructions">Enter the steps for preparing the recipe</string>
+    <string name="hint_recipe_ingredients">Enter a list of ingredients</string>
+    <string name="action_cancel">Close</string>
+    <string name="action_save">Save</string>
 </resources>
