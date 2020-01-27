@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="recipe"
             type="com.example.cookbook.Recipe" />
+        <variable
+            name="viewModel"
+            type="com.example.cookbook.RecipeViewModel" />
     </data>
 
     <LinearLayout
@@ -19,7 +21,8 @@
             android:id="@+id/toolbar_recipe"
             style="@style/Widget.Cookbook.ActionBar"
             android:title="@{recipe.name}"
-            tools:title="@string/sample_recipe_name" />
+            tools:title="@string/sample_recipe_name"
+            app:menu="@menu/toolbar_recipe" />
 
         <ScrollView
             android:layout_width="match_parent"

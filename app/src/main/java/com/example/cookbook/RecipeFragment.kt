@@ -1,14 +1,16 @@
 package com.example.cookbook
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.cookbook.databinding.FragmentRecipeBinding
 
 class RecipeFragment : Fragment() {
@@ -20,32 +22,52 @@ class RecipeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentRecipeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false)
+        val binding: FragmentRecipeBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false)
 
         viewModel = ViewModelProviders.of(this).get(RecipeViewModel::class.java)
 
+        binding.viewModel = viewModel
         binding.recipe = viewModel.dummyRecipe
+        binding.toolbarRecipe.setOnMenuItemClickListener { onClickToolbar(it) }
+
+        viewModel.editRecipe.observe(viewLifecycleOwner, Observer { editRecipe ->
+            if(editRecipe) {
+                findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment())
+                viewModel.onEditRecipeComplete()
+            }
+        })
 
         setHasOptionsMenu(true)
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        val toolbarMenu = R.menu.toolbar_recipe
-        inflater?.inflate(toolbarMenu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    fun onClickToolbar(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_edit -> {
-                Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show()
-//                view?.findNavController()?.navigate(RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment(
-//                    viewModel.currentRecipe.value!!
-//                ))
+                viewModel.onEditRecipe()
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> true
         }
     }
+
+
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        val toolbarMenu = R.menu.toolbar_recipe
+//        inflater?.inflate(toolbarMenu, menu)
+//    }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.action_edit -> {
+//                Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show()
+//                view?.findNavController()
+//                    ?.navigate(RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment())
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 }
