@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="recipe"
             type="com.example.cookbook.Recipe" />
@@ -19,7 +20,8 @@
             style="@style/Widget.Cookbook.ActionBar"
             android:title="@string/action_edit"
             app:menu="@menu/toolbar_edit_recipe"
-            tools:title="@string/sample_recipe_name" />
+            app:title="@string/action_edit"
+            tools:title="@string/sample_recipe_name"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -26,7 +26,6 @@ class RecipeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
 
-        binding.viewModel = viewModel
         binding.recipe = viewModel.dummyRecipe
         binding.toolbarRecipe.setOnMenuItemClickListener { onClickToolbar(it) }
 
