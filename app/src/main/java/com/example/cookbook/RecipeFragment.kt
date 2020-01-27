@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.cookbook.databinding.FragmentRecipeBinding
 
@@ -25,15 +24,15 @@ class RecipeFragment : Fragment() {
         val binding: FragmentRecipeBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false)
 
-        viewModel = ViewModelProviders.of(this).get(RecipeViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.recipe = viewModel.dummyRecipe
         binding.toolbarRecipe.setOnMenuItemClickListener { onClickToolbar(it) }
 
         viewModel.editRecipe.observe(viewLifecycleOwner, Observer { editRecipe ->
-            if(editRecipe) {
-                findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment())
+            if (editRecipe) {
+                findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment(viewModel.dummyRecipe))
                 viewModel.onEditRecipeComplete()
             }
         })

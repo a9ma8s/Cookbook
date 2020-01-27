@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="viewModel"
-            type="com.example.cookbook.EditRecipeViewModel" />
-
         <variable
             name="recipe"
             type="com.example.cookbook.Recipe" />
@@ -23,6 +18,7 @@
             android:id="@+id/toolbar_edit_recipe"
             style="@style/Widget.Cookbook.ActionBar"
             android:title="@string/action_edit"
+            app:menu="@menu/toolbar_edit_recipe"
             tools:title="@string/sample_recipe_name" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

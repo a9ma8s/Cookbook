@@ -18,5 +18,9 @@
         android:id="@+id/editRecipeFragment"
         android:name="com.example.cookbook.EditRecipeFragment"
         android:label="EditRecipeFragment"
-        tools:layout="@layout/fragment_edit_recipe"/>
+        tools:layout="@layout/fragment_edit_recipe">
+        <argument
+            android:name="recipe"
+            app:argType="com.example.cookbook.Recipe" />
+    </fragment>
 </navigation>
