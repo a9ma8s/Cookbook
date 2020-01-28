@@ -40,7 +40,7 @@ class RecipeFragment : Fragment() {
         return binding.root
     }
 
-    fun onClickToolbar(item: MenuItem): Boolean {
+    private fun onClickToolbar(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_edit -> {
                 viewModel.onEditRecipe()
