@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="recipe"
-            type="com.example.cookbook.Recipe" />
+            name="viewModel"
+            type="com.example.cookbook.presentation.recipe.detail.RecipeViewModel" />
     </data>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_recipe"
             style="@style/Widget.Cookbook.ActionBar"
-            android:title="@{recipe.name}"
+            android:title="@{viewModel.currentRecipe.name}"
             app:menu="@menu/toolbar_recipe"
             tools:title="@string/sample_recipe_name" />
 
@@ -34,10 +34,11 @@
                     android:id="@+id/image_recipe"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:contentDescription="@{recipe.name}"
+                    android:contentDescription="@{viewModel.currentRecipe.name}"
                     android:cropToPadding="false"
-                    app:imageResource="@{recipe.image}"
-                    tools:src="@mipmap/pancakes" />
+                    app:imageResource="@{viewModel.currentRecipe.image}"
+                    tools:src="@mipmap/pancakes"
+                    android:adjustViewBounds="true"/>
 
                 <TextView
                     android:id="@+id/text_title_ingredients"
@@ -51,7 +52,7 @@
                     style="@style/RecipeText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{recipe.ingredients}"
+                    android:text="@{viewModel.currentRecipe.ingredients}"
                     tools:text="@string/sample_ingredients" />
 
                 <TextView
@@ -66,7 +67,7 @@
                     style="@style/RecipeText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{recipe.instructions}"
+                    android:text="@{viewModel.currentRecipe.instructions}"
                     tools:text="@string/sample_instructions" />
 
             </LinearLayout>

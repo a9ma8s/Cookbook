@@ -3,20 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/recipeFragment">
+    app:startDestination="@id/recipeListFragment">
 
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.cookbook.RecipeFragment"
+        android:name="com.example.cookbook.presentation.recipe.detail.RecipeFragment"
         android:label="RecipeFragment"
         tools:layout="@layout/fragment_recipe">
         <action
             android:id="@+id/action_recipeFragment_to_editRecipeFragment"
             app:destination="@id/editRecipeFragment" />
+        <argument
+            android:name="recipeKey"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_recipeFragment_to_recipeListFragment"
+            app:destination="@id/recipeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/editRecipeFragment"
-        android:name="com.example.cookbook.EditRecipeFragment"
+        android:name="com.example.cookbook.presentation.recipe.edit.EditRecipeFragment"
         android:label="EditRecipeFragment"
         tools:layout="@layout/fragment_edit_recipe">
         <argument
@@ -24,6 +30,15 @@
             app:argType="com.example.cookbook.Recipe" />
         <action
             android:id="@+id/action_editRecipeFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeListFragment"
+        android:name="com.example.cookbook.presentation.recipe.list.RecipeListFragment"
+        android:label="RecipeListFragment"
+        tools:layout="@layout/fragment_recipe_list">
+        <action
+            android:id="@+id/action_recipeListFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
     </fragment>
 </navigation>

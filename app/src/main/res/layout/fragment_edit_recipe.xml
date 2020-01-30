@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.cookbook.EditRecipeViewModel" />
+            type="com.example.cookbook.presentation.recipe.edit.EditRecipeViewModel" />
 
         <variable
             name="recipe"

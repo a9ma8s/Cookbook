@@ -1,4 +1,4 @@
-package com.example.cookbook
+package com.example.cookbook.presentation.recipe.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.cookbook.R
+import com.example.cookbook.data.RecipeDatabase
 import com.example.cookbook.databinding.FragmentRecipeBinding
 
 class RecipeFragment : Fragment() {
 
+    private lateinit var viewModelFactory: RecipeViewModelFactory
     private lateinit var viewModel: RecipeViewModel
 
     override fun onCreateView(
@@ -22,17 +25,36 @@ class RecipeFragment : Fragment() {
     ): View? {
 
         val binding: FragmentRecipeBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false)
+            DataBindingUtil.inflate(inflater,
+                R.layout.fragment_recipe, container, false)
 
-        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        val dataSource = RecipeDatabase.getInstance(application).recipeDatabaseDao
 
-        binding.recipe = viewModel.dummyRecipe
+        viewModelFactory = RecipeViewModelFactory(RecipeFragmentArgs.fromBundle(arguments!!).recipeKey, dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RecipeViewModel::class.java)
+
+        binding.viewModel = viewModel
+
         binding.toolbarRecipe.setOnMenuItemClickListener { onClickToolbar(it) }
+
+        binding.lifecycleOwner = this
 
         viewModel.editRecipe.observe(viewLifecycleOwner, Observer { editRecipe ->
             if (editRecipe) {
-                findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment(viewModel.dummyRecipe))
+                findNavController().navigate(
+                    RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment(
+                        viewModel.dummyRecipe
+                    )
+                )
                 viewModel.onEditRecipeComplete()
+            }
+        })
+
+        viewModel.navigateToRecipeList.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentToRecipeListFragment())
+                viewModel.onNavigateToRecipeListComplete()
             }
         })
 
