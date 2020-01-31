@@ -15,12 +15,19 @@ interface RecipeDatabaseDao {
     @Update
     fun update(recipe: Recipe)
 
+    // TODO null check
     @Query("SELECT * FROM recipe WHERE id = :key")
-    fun get(key: Long): Recipe?
+    fun get(key: Long): Recipe
 
     @Query("SELECT * FROM recipe ORDER BY id DESC LIMIT 1")
     fun getLatestRecipe(): Recipe?
 
     @Query("SELECT * FROM recipe ORDER BY id")
     fun getAllRecipes(): LiveData<List<Recipe>>
+
+    @Query("SELECT * FROM recipe WHERE name = :name")
+    fun getRecipeWithName(name: String): LiveData<List<Recipe>>
+
+    @Query("DELETE FROM recipe")
+    fun clear()
 }

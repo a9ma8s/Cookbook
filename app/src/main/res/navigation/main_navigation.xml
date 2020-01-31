@@ -27,10 +27,11 @@
         tools:layout="@layout/fragment_edit_recipe">
         <argument
             android:name="recipe"
-            app:argType="com.example.cookbook.Recipe" />
+            app:argType="long" />
         <action
             android:id="@+id/action_editRecipeFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:popUpTo="@+id/recipeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeListFragment"
@@ -40,5 +41,21 @@
         <action
             android:id="@+id/action_recipeListFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_recipeListFragment_to_addRecipeFragment"
+            app:destination="@id/addRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addRecipeFragment"
+        android:name="com.example.cookbook.presentation.recipe.add.AddRecipeFragment"
+        android:label="fragment_add_recipe"
+        tools:layout="@layout/fragment_add_recipe">
+        <action
+            android:id="@+id/action_addRecipeFragment_to_recipeListFragment"
+            app:destination="@id/recipeListFragment" />
+        <action
+            android:id="@+id/action_addRecipeFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment"
+            app:popUpTo="@+id/recipeListFragment" />
     </fragment>
 </navigation>

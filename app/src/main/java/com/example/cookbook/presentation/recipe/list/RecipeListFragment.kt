@@ -2,8 +2,10 @@ package com.example.cookbook.presentation.recipe.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,9 +41,11 @@ class RecipeListFragment : Fragment() {
 
         val adapter =
             RecipeAdapter(RecipeAdapter.OnClickListener {
-                viewModel.onRecipeClicked(it.id)
+                viewModel.onRecipeClicked(it)
             })
         binding.listRecipe.adapter = adapter
+
+        binding.toolbarListRecipe.setOnMenuItemClickListener { onClickToolbar(it) }
 
         binding.lifecycleOwner = this
 
@@ -56,10 +60,27 @@ class RecipeListFragment : Fragment() {
             }
         })
 
+        viewModel.navigateToAddRecipe.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                findNavController().navigate(RecipeListFragmentDirections.actionRecipeListFragmentToAddRecipeFragment())
+                viewModel.onAddRecipeNavigated()
+            }
+        })
+
         val manager = GridLayoutManager(activity, 2)
         binding.listRecipe.layoutManager = manager
 
         return binding.root
+    }
+
+    private fun onClickToolbar(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete -> {
+                viewModel.onClear()
+                true
+            }
+            else -> true
+        }
     }
 
 }

@@ -8,20 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cookbook.Recipe
 import com.example.cookbook.databinding.ItemRecipeListBinding
 
-class RecipeAdapter(private val onClickListener: OnClickListener) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(
-    DiffCallback
-) {
+class RecipeAdapter(private val clickListener: OnClickListener) :
+    ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: ItemRecipeListBinding) :
+    class ViewHolder(private val binding: ItemRecipeListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Recipe) {
+        fun bind(item: Recipe, clickListener: OnClickListener) {
             binding.recipe = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
     }
 
-    class OnClickListener(val clickListener: (recipe: Recipe) -> Unit) {
-        fun onClick(recipe: Recipe) = clickListener(recipe)
+    class OnClickListener(val clickListener: (recipeId: Long) -> Unit) {
+        fun onClick(recipe: Recipe) = clickListener(recipe.id)
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Recipe>() {
@@ -44,8 +44,8 @@ class RecipeAdapter(private val onClickListener: OnClickListener) : ListAdapter<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recipe = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(recipe)
+            clickListener.onClick(recipe)
         }
-        holder.bind(recipe)
+        holder.bind(recipe, clickListener)
     }
 }

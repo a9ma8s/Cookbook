@@ -1,4 +1,4 @@
-package com.example.cookbook.presentation.recipe.edit
+package com.example.cookbook.presentation.recipe.add
 
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
@@ -9,20 +9,23 @@ import com.example.cookbook.Recipe
 import com.example.cookbook.data.RecipeDatabaseDao
 import kotlinx.coroutines.*
 
-class EditRecipeViewModel(val recipeKey: Long = 0L, val database: RecipeDatabaseDao) :
-    ObservableViewModel() {
+class AddRecipeViewModel(val database: RecipeDatabaseDao) : ObservableViewModel() {
 
     private val vieModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + vieModelJob)
 
-    private val _navigateToRecipeDetail = MutableLiveData<Boolean>()
-    val navigateToRecipeDetail : LiveData<Boolean>
-        get() = _navigateToRecipeDetail
+    private val _navigateToRecipeList = MutableLiveData<Boolean>()
+    val navigateToRecipeList: LiveData<Boolean>
+        get() = _navigateToRecipeList
 
+    private val _navigateToRecipeDetail = MutableLiveData<Boolean>()
+    val navigateToRecipeDetail: LiveData<Boolean>
+        get() = _navigateToRecipeDetail
 
     private val _recipe = MutableLiveData<Recipe>()
     val recipe: LiveData<Recipe>
         get() = _recipe
+
 
     // TODO remove !!
     @Bindable
@@ -69,44 +72,24 @@ class EditRecipeViewModel(val recipeKey: Long = 0L, val database: RecipeDatabase
     // TODO bindable for image
 
     init {
+        _navigateToRecipeList.value = false
         _navigateToRecipeDetail.value = false
         _recipe.value = Recipe()
     }
 
-    init {
-        _navigateToRecipeDetail.value = false
-        initializeRecipe()
-    }
-
-    fun initializeRecipe() {
-        uiScope.launch {
-            _recipe.value = getRecipeFromDatabase(recipeKey)
-        }
-    }
-
-    private suspend fun getRecipeFromDatabase(recipeKey: Long): Recipe? {
-        return withContext(Dispatchers.IO) {
-            var recipe = database.get(recipeKey)
-            // TODO add null check
-//            if (recipe.name == "") {
-//                recipe = null
-//            }
-            recipe
-        }
-    }
-
     fun onCancel() {
-        _navigateToRecipeDetail.value = true
+        _navigateToRecipeList.value = true
     }
 
     fun onCancelComplete() {
-        _navigateToRecipeDetail.value = false
+        _navigateToRecipeList.value = false
     }
 
     fun onSave() {
         uiScope.launch {
             // TODO remove !!
-            update(_recipe.value!!)
+            insert(_recipe.value!!)
+            _recipe.value = getLatestRecipeFromDatabase()
             _navigateToRecipeDetail.value = true
         }
     }
@@ -115,9 +98,9 @@ class EditRecipeViewModel(val recipeKey: Long = 0L, val database: RecipeDatabase
         _navigateToRecipeDetail.value = false
     }
 
-    private suspend fun update(recipe: Recipe) {
+    private suspend fun insert(recipe: Recipe) {
         withContext(Dispatchers.IO) {
-            database.update(recipe)
+            database.insert(recipe)
         }
     }
 

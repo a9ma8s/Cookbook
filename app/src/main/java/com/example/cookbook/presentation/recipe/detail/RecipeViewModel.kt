@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.cookbook.R
 import com.example.cookbook.Recipe
 import com.example.cookbook.data.RecipeDatabaseDao
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 
-class RecipeViewModel(recipeKey: Long = 0L, database: RecipeDatabaseDao) : ViewModel() {
+class RecipeViewModel(val recipeKey: Long = 0L, val database: RecipeDatabaseDao) : ViewModel() {
 
-    private val viewModelJob = Job()
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val _currentRecipe = MutableLiveData<Recipe>()
     val currentRecipe: LiveData<Recipe>
@@ -25,17 +26,27 @@ class RecipeViewModel(recipeKey: Long = 0L, database: RecipeDatabaseDao) : ViewM
         get() = _navigateToRecipeList
 
     init {
-        _currentRecipe.value = database.get(recipeKey)
+        initializeRecipe()
         _editRecipe.value = false
         _navigateToRecipeList.value = false
     }
 
-    var dummyRecipe = Recipe(
-        name = "Rigatoni with Vodka Sauce",
-        ingredients = "400 grams flour \n1 tsp salt \n300 ml water",
-        instructions = "1. Preheat oven to 200°C \n 2. Mix ingredients \n3. Let dough rest in refrigerator for 30 minutes \n4. Bake for 40-45 minutes",
-        image = R.mipmap.rigatoni
-    )
+    fun initializeRecipe() {
+        uiScope.launch {
+            _currentRecipe.value = getRecipeFromDatabase(recipeKey)
+        }
+    }
+
+    private suspend fun getRecipeFromDatabase(recipeKey: Long): Recipe? {
+        return withContext(Dispatchers.IO) {
+            var recipe = database.get(recipeKey)
+            // TODO add null check
+//            if (recipe.name == "") {
+//                recipe = null
+//            }
+            recipe
+        }
+    }
 
     fun onEditRecipe() {
         _editRecipe.value = true

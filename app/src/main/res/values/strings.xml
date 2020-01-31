@@ -10,4 +10,11 @@
     <string name="hint_recipe_ingredients">Enter a list of ingredients</string>
     <string name="action_cancel">Close</string>
     <string name="action_save">Save</string>
+    <string name="title_recipes">Recipes</string>
+    <string name="action_add">Add</string>
+    <string name="hint_ingredients">Enter a list of ingredients</string>
+    <string name="hint_instructions">Enter instruction steps</string>
+    <string name="title_name">Name</string>
+    <string name="hint_name">Enter a name for the recipe</string>
+    <string name="action_delete">Delete</string>
 </resources>

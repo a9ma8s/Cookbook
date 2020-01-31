@@ -7,8 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.cookbook.presentation.recipe.edit.EditRecipeViewModel" />
-
+            type="com.example.cookbook.presentation.recipe.add.AddRecipeViewModel" />
     </data>
 
     <LinearLayout
@@ -17,18 +16,18 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_edit_recipe"
+            android:id="@+id/toolbar_add_recipe"
             style="@style/Widget.Cookbook.ActionBar"
-            android:title="@string/action_edit"
+            android:title="@string/action_add"
             app:menu="@menu/toolbar_edit_recipe"
-            app:title="@string/action_edit" />
+            app:title="@string/action_add" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ScrollView
-                android:id="@+id/scroll_edit_recipe"
+                android:id="@+id/scroll_add_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -47,8 +46,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:contentDescription="@{viewModel.recipe.name}"
+                        imageResource="@{viewModel.recipe.image}"
                         android:cropToPadding="false"
-                        app:imageResource="@{viewModel.recipe.image}"
+                        android:src="@drawable/ic_broken_image"
                         tools:src="@mipmap/pancakes" />
 
                     <TextView
@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_name"
                         android:text="@={viewModel.recipe.name}"
-                        tools:text="@string/sample_recipe_name" />
+                        tools:text="" />
 
                     <TextView
                         android:id="@+id/text_title_ingredients"
@@ -79,9 +79,10 @@
                         style="@style/RecipeText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter a list of ingredients"
+                        android:hint="@string/hint_ingredients"
+                        android:inputType="textMultiLine"
                         android:text="@={viewModel.recipe.ingredients}"
-                        tools:text="@string/sample_ingredients" />
+                        tools:text="" />
 
                     <TextView
                         android:id="@+id/text_title_instructions"
@@ -95,9 +96,10 @@
                         style="@style/RecipeText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter instruction steps"
+                        android:hint="@string/hint_instructions"
+                        android:inputType="textMultiLine"
                         android:text="@={viewModel.recipe.instructions}"
-                        tools:text="@string/sample_instructions" />
+                        tools:text="" />
 
                 </LinearLayout>
             </ScrollView>
@@ -111,7 +113,7 @@
                 android:focusable="true"
                 android:fontFamily="@font/roboto"
                 android:clickable="true"
-                android:onClick="@{() -> viewModel.onSave()()}"
+                android:onClick="@{() -> viewModel.onSave()}"
                 android:text="@string/action_save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

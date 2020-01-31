@@ -4,11 +4,13 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cookbook.R
 import com.example.cookbook.Recipe
 import com.example.cookbook.data.RecipeDatabaseDao
 import kotlinx.coroutines.*
 
-class RecipeListViewModel(val database: RecipeDatabaseDao, application: Application) : ViewModel() {
+class RecipeListViewModel(private val database: RecipeDatabaseDao, application: Application) :
+    ViewModel() {
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -20,12 +22,24 @@ class RecipeListViewModel(val database: RecipeDatabaseDao, application: Applicat
     val navigateToSelectedRecipe: LiveData<Long>
         get() = _navigateToSelectedRecipe
 
+    private val _navigateToAddRecipe = MutableLiveData<Boolean>()
+    val navigateToAddRecipe: LiveData<Boolean>
+        get() = _navigateToAddRecipe
+
     fun onRecipeClicked(id: Long) {
         _navigateToSelectedRecipe.value = id
     }
 
     fun onRecipeNavigated() {
         _navigateToSelectedRecipe.value = null
+    }
+
+    fun onAddRecipe() {
+        _navigateToAddRecipe.value = true
+    }
+
+    fun onAddRecipeNavigated() {
+        _navigateToAddRecipe.value = false
     }
 
     private fun initializeLatestRecipe() {
@@ -46,16 +60,8 @@ class RecipeListViewModel(val database: RecipeDatabaseDao, application: Applicat
     }
 
     init {
+        _navigateToAddRecipe.value = false
         initializeLatestRecipe()
-    }
-
-    // TODO add button
-    fun onAddRecipe() {
-        uiScope.launch {
-            val newRecipe = Recipe()
-            insert(newRecipe)
-            latestRecipe.value = getLatestRecipeFromDatabase()
-        }
     }
 
     private suspend fun insert(recipe: Recipe) {
@@ -75,4 +81,19 @@ class RecipeListViewModel(val database: RecipeDatabaseDao, application: Applicat
         super.onCleared()
         viewModelJob.cancel()
     }
+
+    fun onClear() {
+        uiScope.launch {
+            clear()
+            latestRecipe.value = null
+        }
+    }
+
+    private suspend fun clear() {
+        withContext(Dispatchers.IO) {
+            database.clear()
+        }
+    }
+
+
 }

@@ -9,7 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.example.cookbook.R
 import com.example.cookbook.data.RecipeDatabase
 import com.example.cookbook.databinding.FragmentRecipeBinding
@@ -36,6 +39,8 @@ class RecipeFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        val navController = findNavController()
+        binding.toolbarRecipe.setupWithNavController(navController)
         binding.toolbarRecipe.setOnMenuItemClickListener { onClickToolbar(it) }
 
         binding.lifecycleOwner = this
@@ -44,7 +49,7 @@ class RecipeFragment : Fragment() {
             if (editRecipe) {
                 findNavController().navigate(
                     RecipeFragmentDirections.actionRecipeFragmentToEditRecipeFragment(
-                        viewModel.dummyRecipe
+                        viewModel.recipeKey
                     )
                 )
                 viewModel.onEditRecipeComplete()
@@ -71,6 +76,7 @@ class RecipeFragment : Fragment() {
             else -> true
         }
     }
+
 
 
 //    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

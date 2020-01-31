@@ -14,35 +14,60 @@
             type="com.example.cookbook.presentation.recipe.list.RecipeAdapter.OnClickListener" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="180dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
-        app:cardCornerRadius="3dp"
+        android:layout_width="match_parent"
         android:onClick="@{() -> clickListener.onClick(recipe)}">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-            <ImageView
-                android:id="@+id/image_recipe_item"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:imageResource="@{recipe.image}"
-                tools:srcCompat="@mipmap/pancakes"
-                android:adjustViewBounds="true"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text_recipe_item"
-                style="@style/RecipeTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{recipe.name}"
-                tools:text="@string/sample_recipe_name"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"/>
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/image_recipe_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    app:imageResource="@{recipe.image}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@mipmap/pancakes" />
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/text_recipe_item"
+                    style="@style/RecipeTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@{recipe.name}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_recipe_item"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="@string/sample_recipe_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
